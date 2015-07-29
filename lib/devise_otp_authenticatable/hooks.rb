@@ -1,6 +1,5 @@
 module DeviseOtpAuthenticatable
   module Hooks
-
     autoload :Sessions, 'devise_otp_authenticatable/hooks/sessions.rb'
 
     class << self

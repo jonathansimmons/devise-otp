@@ -11,27 +11,26 @@ module DeviseOtpAuthenticatable::Hooks
     # replaces Devise::SessionsController#create
     #
     def create_with_otp
-
+      # Standard Devise auth through warden
       resource = warden.authenticate!(auth_options)
-
-      devise_stored_location = stored_location_for(resource) # Grab the current stored location before it gets lost by warden.logout
-
+      # Grab the current stored location before it gets lost by warden.logout
+      devise_stored_location = stored_location_for(resource)
+      # Refresh the credentials for the user signing in.
       otp_refresh_credentials_for(resource)
 
       if otp_challenge_required_on?(resource)
         challenge = resource.generate_otp_challenge!
         warden.logout
         store_location_for(resource, devise_stored_location) # restore the stored location
-        respond_with resource, :location => otp_credential_path_for(resource, {:challenge => challenge})
+        respond_with resource, location: otp_credential_path_for(resource, { challenge:  challenge })
       elsif otp_mandatory_on?(resource) # if mandatory, log in user but send him to the must activate otp
         set_flash_message(:notice, :signed_in_but_otp) if is_navigational_format?
         sign_in(resource_name, resource)
-        respond_with resource, :location => otp_token_path_for(resource)
+        respond_with resource, location: otp_token_path_for(resource)
       else
-
         set_flash_message(:notice, :signed_in) if is_navigational_format?
         sign_in(resource_name, resource)
-        respond_with resource, :location => after_sign_in_path_for(resource)
+        respond_with resource, location: after_sign_in_path_for(resource)
       end
     end
 

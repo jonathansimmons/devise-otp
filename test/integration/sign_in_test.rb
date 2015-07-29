@@ -11,8 +11,8 @@ class SignInTest < ActionDispatch::IntegrationTest
     create_full_user
 
     visit new_user_session_path
-    fill_in 'user_email', :with => 'user@email.invalid'
-    fill_in 'user_password', :with => '12345678'
+    fill_in 'user_email', with: 'user@email.invalid'
+    fill_in 'user_password', with: '12345678'
     page.has_content?('Log in') ? click_button('Log in') : click_button('Sign in')
 
     assert_equal root_path, current_path
@@ -44,7 +44,7 @@ class SignInTest < ActionDispatch::IntegrationTest
     enable_otp_and_sign_in
     assert_equal user_otp_credential_path, current_path
 
-    fill_in 'user_token', :with => '123456'
+    fill_in 'user_token', with: '123456'
     click_button 'Submit Token'
 
     assert_equal new_user_session_path, current_path
@@ -54,7 +54,7 @@ class SignInTest < ActionDispatch::IntegrationTest
     enable_otp_and_sign_in
     assert_equal user_otp_credential_path, current_path
 
-    fill_in 'user_token', :with => ''
+    fill_in 'user_token', with: ''
     click_button 'Submit Token'
 
     assert_equal user_otp_credential_path, current_path
@@ -63,7 +63,7 @@ class SignInTest < ActionDispatch::IntegrationTest
   test 'successful token authentication' do
     user = enable_otp_and_sign_in
 
-    fill_in 'user_token', :with => ROTP::TOTP.new(user.otp_auth_secret).at(Time.now)
+    fill_in 'user_token', with: ROTP::TOTP.new(user.otp_auth_secret).at(Time.now)
     click_button 'Submit Token'
 
     assert_equal root_path, current_path
@@ -78,7 +78,7 @@ class SignInTest < ActionDispatch::IntegrationTest
 
     sleep(2)
 
-    fill_in 'user_token', :with => ROTP::TOTP.new(user.otp_auth_secret).at(Time.now)
+    fill_in 'user_token', with: ROTP::TOTP.new(user.otp_auth_secret).at(Time.now)
     click_button 'Submit Token'
 
     User.otp_authentication_timeout = old_timeout

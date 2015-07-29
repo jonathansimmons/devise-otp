@@ -1,5 +1,4 @@
 module DeviseOtpAuthenticatable
-
   module Mapping
 
     def self.included(base)
@@ -7,6 +6,7 @@ module DeviseOtpAuthenticatable
     end
 
     private
+
     def default_controllers_with_otp(options)
       options[:controllers] ||= {}
 

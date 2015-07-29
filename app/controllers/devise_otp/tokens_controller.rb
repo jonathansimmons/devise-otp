@@ -4,7 +4,7 @@ class DeviseOtp::TokensController < DeviseController
   prepend_before_filter :ensure_credentials_refresh
   prepend_before_filter :authenticate_scope!
 
-  protect_from_forgery :except => [:clear_persistence, :delete_persistence]
+  protect_from_forgery except: [:clear_persistence, :delete_persistence]
 
   #
   # Displays the status of OTP authentication
@@ -21,10 +21,8 @@ class DeviseOtp::TokensController < DeviseController
   # Updates the status of OTP authentication
   #
   def update
-
     enabled =  (params[resource_name][:otp_enabled] == '1')
     if (enabled ? resource.enable_otp! : resource.disable_otp!)
-
       otp_set_flash_message :success, :successfully_updated
     end
     render :show
@@ -34,7 +32,6 @@ class DeviseOtp::TokensController < DeviseController
   # Resets OTP authentication, generates new credentials, sets it to off
   #
   def destroy
-
     if resource.reset_otp_credentials!
       otp_set_flash_message :success, :successfully_reset_creds
     end
@@ -46,12 +43,10 @@ class DeviseOtp::TokensController < DeviseController
   # makes the current browser persistent
   #
   def get_persistence
-
-
     if otp_set_trusted_device_for(resource)
       otp_set_flash_message :success, :successfully_set_persistence
     end
-    redirect_to :action => :show
+    redirect_to action: :show
   end
 
 
@@ -63,7 +58,7 @@ class DeviseOtp::TokensController < DeviseController
       otp_set_flash_message :success, :successfully_cleared_persistence
     end
 
-    redirect_to :action => :show
+    redirect_to action: :show
   end
 
 
@@ -75,7 +70,7 @@ class DeviseOtp::TokensController < DeviseController
       otp_set_flash_message :notice, :successfully_reset_persistence
     end
 
-    redirect_to :action => :show
+    redirect_to action: :show
   end
 
   #

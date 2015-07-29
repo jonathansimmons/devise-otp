@@ -42,7 +42,7 @@ content = <<-CONTENT
 
 CONTENT
 
-        inject_into_file "config/initializers/devise.rb", content, :before => /end[ |\n|]+\Z/
+        inject_into_file "config/initializers/devise.rb", content, before: /end[ |\n|]+\Z/
       end
 
       def copy_locale

@@ -79,5 +79,6 @@ require 'devise_otp_authenticatable/routes'
 require 'devise_otp_authenticatable/engine'
 
 Devise.add_module :otp_authenticatable,
-                  :controller => :otp_tokens,
-                  :model => 'devise_otp_authenticatable/models/otp_authenticatable', :route => :otp
+                  controller: :otp_tokens,
+                  model: 'devise_otp_authenticatable/models/otp_authenticatable',
+                  route: :otp

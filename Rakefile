@@ -39,4 +39,4 @@ task :tests do
 end
 
 desc 'Default: run tests for all ORMs.'
-task :default => :tests
+task default: :tests
